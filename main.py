@@ -38,18 +38,16 @@ def fetch(data: Data):
             "http://crm.mingdao.edu.tw/crm/search_setup1_op.asp", data=data.get_query())
 
         soup = BeautifulSoup(r.text, "html.parser")
-        table: List[BeautifulSoup] = find_all_elements(soup, "table")[7]
-        # children: List[BeautifulSoup] = find_all_elements(table, "tr")[1::2]
-        # print(type(children))
-        # print_data(children)
-        children: List[BeautifulSoup] = find_all_elements(table, "tr")[1::2]
-        print(children)
+        table: BeautifulSoup = find_all_elements(soup, "table")[7]
+        children: BeautifulSoup = find_all_elements(table, "tr")[1::2]
+
+        print_data(children)
 
 
 def print_data(body: BeautifulSoup):
-    row0 = [child.text for child in body[3].findChildren()[1:]]
-    row1 = [child.text for child in body[4].findChildren()]
-    row2 = [child.text for child in body[5].findChildren()]
+    row0 = [child.text for child in body[0].findChildren()[1:]]
+    row1 = [child.text for child in body[1].findChildren()]
+    row2 = [child.text for child in body[2].findChildren()]
 
     score = [f"{child:4}" for child in row0[:9:2]]
     rank = [f"{child:4}" for child in row0[1:10:2]]
